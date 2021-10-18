@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundRepeat: 'no-repeat',
         backgroundColor:
         theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
-        backgroundSize: 'cover',
+        backgroundSize: "cover",
         backgroundPosition: 'center',
     },
     paper: {

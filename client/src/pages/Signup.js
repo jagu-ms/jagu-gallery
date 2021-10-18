@@ -32,14 +32,20 @@ const useStyles = makeStyles((theme) => ({
 export default function Signup() {
     const classes = useStyles();
 
-    const [/* name, */ setName] = useState()
-    const [/* email */, setEmail] = useState()
-    const [/* password */, setPassword] = useState()
+    const [name, setName] = useState()
+    const [email, setEmail] = useState()
+    const [password, setPassword] = useState()
+    const [ConfirmPassword, setConfirmPassword] = useState()
     /* const [loading, setLoading] = useState(false) */
-    const [hasError/* , setHasError */] = useState(false)
+    const [hasError, setHasError] = useState(false)
 
     const onSubmit = async (event) => {
         event.preventDefault();
+        if(password !== ConfirmPassword) {
+            setHasError("please confirm password")
+            return
+        }
+        console.log(name, email, password, ConfirmPassword)
     }
 
   return (
@@ -55,7 +61,7 @@ export default function Signup() {
                 <Box marginTop={2}>
                     <Alert severity='error'>
                         <Typography component="h1" variant="h5">
-                            Sign up err
+                            {hasError}
                         </Typography>
                     </Alert>
                 </Box>
@@ -66,12 +72,11 @@ export default function Signup() {
               margin="normal"
               required
               fullWidth
-              id="name"
               label="Name"
               name="name"
-              autoComplete="name"
               autoFocus
-              onChange={setName}
+              onChange={e => {setName(e.target.value)
+                            setHasError(false)}}
             />
             <TextField
               variant="outlined"
@@ -83,7 +88,8 @@ export default function Signup() {
               name="email"
               autoComplete="email"
               autoFocus
-              onChange={setEmail}
+              onChange={e => {setEmail(e.target.value) 
+                            setHasError(false)}}
             />
             <TextField
               variant="outlined"
@@ -95,7 +101,8 @@ export default function Signup() {
               type="password"
               id="password"
               autoComplete="current-password"
-              onChange={setPassword}
+              onChange={e => {setPassword(e.target.value)
+                setHasError(false)} }
             />
             <TextField
               variant="outlined"
@@ -107,6 +114,8 @@ export default function Signup() {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={e => {setConfirmPassword(e.target.value)
+                            setHasError(false)}}
             />
             <Button
               type="submit"
