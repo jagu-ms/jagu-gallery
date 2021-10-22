@@ -12,7 +12,7 @@ import Image from "../assets/sidshikh.jpg"
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        height: '700px',
+        height: '100vh',
     },
     image: {
         backgroundImage: `url(${Image})` ,
@@ -54,7 +54,7 @@ function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
         {'Copyright © '}
-        <Link color="inherit" href="https://mui.com/">
+        <Link color="inherit" href="#">
             Jagu Gallery
         </Link>{' '}
         {new Date().getFullYear()}

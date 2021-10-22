@@ -11,6 +11,9 @@ import Alert from '@material-ui/lab/Alert';
 import { AuthContainer } from '../components';
 import { makeStyles } from '@material-ui/core/styles';
 import { useState } from 'react';
+import { useHistory } from "react-router-dom";
+import axios from 'axios';
+import Auth from "../Auth";
 
 
 
@@ -31,15 +34,27 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Signup() {
     const classes = useStyles();
+    const history = useHistory();
 
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
     /* const [loading, setLoading] = useState(false) */
     const [hasError, setHasError] = useState(false)
 
-    const onSubmit = async (event) => {
-        event.preventDefault();
-        console.log( email, password)
+    const onSubmit = async (e) => {
+      e.preventDefault();
+      
+      let data = { email, password}
+
+      axios.post('/api/auth', data)
+
+      .then(res => {
+        Auth.login(res.data);
+        history.push("/");
+      }).catch(err => {
+        console.log(err)
+          setHasError(err.response.data.message)
+      });
     }
 
   return (
@@ -54,7 +69,7 @@ export default function Signup() {
                 hasError && 
                 <Box marginTop={2}>
                     <Alert severity='error'>
-                        <Typography component="h1" variant="h5">
+                        <Typography component="p">
                             {hasError}
                         </Typography>
                     </Alert>

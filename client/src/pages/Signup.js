@@ -11,6 +11,9 @@ import Alert from '@material-ui/lab/Alert';
 import { AuthContainer } from '../components';
 import { makeStyles } from '@material-ui/core/styles';
 import { useState } from 'react';
+import { useHistory } from "react-router-dom";
+import axios from 'axios';
+import Auth from "../Auth";
 
 
 
@@ -31,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Signup() {
     const classes = useStyles();
+    const history = useHistory();
 
     const [name, setName] = useState()
     const [email, setEmail] = useState()
@@ -39,102 +43,113 @@ export default function Signup() {
     /* const [loading, setLoading] = useState(false) */
     const [hasError, setHasError] = useState(false)
 
-    const onSubmit = async (event) => {
-        event.preventDefault();
+    const onSubmit =  (e) => {
+        e.preventDefault();
+
         if(password !== ConfirmPassword) {
             setHasError("please confirm password")
             return
         }
-        console.log(name, email, password, ConfirmPassword)
+        
+        let data = {name, email, password}
+
+        axios.post('/api/auth/signup', data)
+
+        .then(res => {
+          Auth.login(res.data);
+          history.push("/");
+        }).catch(err => {
+          console.log(err)
+            setHasError(err.response.data.message)
+        });
     }
 
   return (
     <AuthContainer>
-          <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign Up
-          </Typography>
-          {
-                hasError && 
-                <Box marginTop={2}>
-                    <Alert severity='error'>
-                        <Typography component="h1" variant="h5">
-                            {hasError}
-                        </Typography>
-                    </Alert>
-                </Box>
-            }
-          <form className={classes.form} noValidate onSubmit={onSubmit}>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              label="Name"
-              name="name"
-              autoFocus
-              onChange={e => {setName(e.target.value)
-                            setHasError(false)}}
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-              onChange={e => {setEmail(e.target.value) 
-                            setHasError(false)}}
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              onChange={e => {setPassword(e.target.value)
-                setHasError(false)} }
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Confirm Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              onChange={e => {setConfirmPassword(e.target.value)
-                            setHasError(false)}}
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-            >
-              Sign Up
-            </Button>
-            <Grid container>
-              <Grid item>
-                <Link href="login" variant="body2">
-                  {"Login"}
-                </Link>
-              </Grid>
-            </Grid>
-            
-          </form>
-        </AuthContainer>
+      <Avatar className={classes.avatar}>
+        <LockOutlinedIcon />
+      </Avatar>
+      <Typography component="h1" variant="h5">
+        Sign Up
+      </Typography>
+      {
+            hasError && 
+            <Box marginTop={2}>
+                <Alert severity='error'>
+                    <Typography component="p" >
+                        {hasError}
+                    </Typography>
+                </Alert>
+            </Box>
+        }
+      <form className={classes.form} noValidate onSubmit={onSubmit}>
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          label="Name"
+          name="name"
+          autoFocus
+          onChange={e => {setName(e.target.value)
+                        setHasError(false)}}
+        />
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          id="email"
+          label="Email Address"
+          name="email"
+          autoComplete="email"
+          autoFocus
+          onChange={e => {setEmail(e.target.value) 
+                        setHasError(false)}}
+        />
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          name="password"
+          label="Password"
+          type="password"
+          id="password"
+          autoComplete="current-password"
+          onChange={e => {setPassword(e.target.value)
+            setHasError(false)} }
+        />
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          name="password"
+          label="Confirm Password"
+          type="password"
+          id="password"
+          autoComplete="current-password"
+          onChange={e => {setConfirmPassword(e.target.value)
+                        setHasError(false)}}
+        />
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          color="primary"
+          className={classes.submit}
+        >
+          Sign Up
+        </Button>
+        <Grid container>
+          <Grid item>
+            <Link href="login" variant="body2">
+              {"Login"}
+            </Link>
+          </Grid>
+        </Grid>
+      </form>
+    </AuthContainer>
   );
 }

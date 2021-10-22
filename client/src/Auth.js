@@ -2,15 +2,16 @@ import axios from 'axios';
 //Dealing with local storage.
 const Auth = {
     login: user => {
-        localStorage.setItem('user', JSON.stringify(user));
-        axios.defaults.headers.common['Authorization'] = user.token
+        localStorage.setItem('token', user.token);
+        localStorage.setItem('id', user.id);
+        axios.defaults.headers.common = {'Authorization': user.token};
     },
     init: () => {
         let user = JSON.parse(localStorage.getItem('user'));
         axios.defaults.headers.common['Authorization'] = user !== null ? user.token : "";
     },
-    auth: () => localStorage.getItem('user') !== null,
-    guest: () => localStorage.getItem('user') === null,
+    auth: () => localStorage.getItem('token') !== null,
+    guest: () => localStorage.getItem('token') === null,
     logout: () => {
         delete axios.defaults.headers.common['Authorization'];
         localStorage.removeItem('user');

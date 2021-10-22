@@ -9,7 +9,8 @@ import {
         Avatar, 
         Menu, 
         MenuItem ,
-        Link
+        Link,
+        Box
         } from '@material-ui/core'
 import Auth from "../../Auth"
 import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
@@ -96,7 +97,7 @@ function UserMenu({user, logout}) {
                 onClick={handleMenu}
                 color="inherit"
             >
-                <Avatar>{user.name?.charAt(0)}</Avatar>
+                <Avatar ><Box className={classes.title}>{user.name?.charAt(0)}</Box></Avatar>
             </IconButton>
             <Menu
                 id="menu-appbar"

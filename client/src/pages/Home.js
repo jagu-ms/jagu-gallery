@@ -22,10 +22,13 @@ const useStyles = makeStyles((theme) => ({
         margin: "5px 0 10px 10px",
     },
     favorite: {
-        margin: "12px 5px 5px 5px",
+        margin: "17px 5px 5px 5px",
     },
     likes: {
-        marginTop: "7px"
+        marginTop: "12px"
+    },
+    disc: {
+        margin: "16px 0 0 20px"
     }
 }));
 
@@ -91,13 +94,15 @@ function BasicImageList({itemData}) {
         <>
             {
                 itemData.map((item) => (
-                    <Grid item lg={8} sm={10} xm={12} key={item.id} className={classes.grid}>
+                    <Grid item lg={8} sm={10} xm={12} key={item.id} >
                         <div>
                             <Button>
                             <img src={item.img} alt={item.title} className={classes.img}/>
 
                             </Button>
                         </div>
+
+                        
                         
                         <Grid container direction="row" className={classes.likesContainer}>
                             {
@@ -110,6 +115,15 @@ function BasicImageList({itemData}) {
                                 {item.likes} 
                             </Typography>
                             <FavoriteOutlinedIcon fontSize="small" className={classes.favorite}/>
+                        </Grid>
+                        <Grid container direction="row" className={classes.likesContainer}>
+                            <Typography variant="h4" >
+                                 {item.title}
+                            </Typography>
+                            <Typography variant="p"  className={classes.disc}  >
+                                {item.title.substr(0,50) + "..."} 
+                            </Typography>
+
                         </Grid>
                     </Grid>
                 ))
