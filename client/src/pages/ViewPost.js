@@ -4,6 +4,7 @@ import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
 import MainContainer from "../components/MainContainer";
 import { useState, useEffect } from 'react';
+import {Link} from 'react-router-dom';
 import axios from "axios";
 import Auth from "../Auth";
 
@@ -44,8 +45,11 @@ export default function ViewPost(props){
 
   useEffect(() => {
       let postId = props.match.params.id;
-
-      axios.get('/api/posts/'+postId)
+    // with <AppRoute path="/viewpost/:id" exact component={ViewPost}/> doesn't work
+    // and with <AppRoute path="/viewpost" exact component={ViewPost}/> works normaly
+    // even when i copied the home page codes exactly!!
+    // what is crazy !!!
+      axios.get('/api/posts/')
 
       .then(res => {
           setPost(res.data);
@@ -68,6 +72,7 @@ export default function ViewPost(props){
   }
   return (
     <MainContainer>
+        <Image itemData={post}/>
         {
           post.img && 
           <img src={`uploads/${post.img}`} alt="pic" className={classes.img}/>
@@ -124,7 +129,7 @@ const EditePost = () => {
           margin="normal"
           label="description"
           multiline
-          rows={4}  
+          rows={4}
           variant="outlined"
           fullWidth
         />
@@ -134,5 +139,26 @@ const EditePost = () => {
       </Grid>
     </>
   )
-}   
+}
 
+function Image({itemData}) {
+  const classes = useStyles();
+
+  return (
+      <>
+          {
+              itemData.map((item) => (
+                  <Grid item lg={8} sm={10} xm={12} key={item.id} >
+                      <div>
+                          <Button>
+                              <Link to={"/viewpost/"+item._id}>
+                                  <img src={`uploads/${item.img}`} alt={item.title} className={classes.img}/>
+                              </Link>
+                          </Button>
+                      </div>
+                  </Grid>
+              ))
+          }
+      </>
+  );
+}
