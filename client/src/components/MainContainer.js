@@ -13,7 +13,8 @@ const useStyles = makeStyles((theme) => ({
         paddingTop: "25px",
         display: "flex",
         flexDirection: "column",
-        alignItems: "center"
+        alignItems: "center",
+        minHeight: "100vh"
     },
     backdrop: {
         zIndex: theme.zIndex.drawer + 1,

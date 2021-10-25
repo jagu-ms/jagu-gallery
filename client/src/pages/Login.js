@@ -13,6 +13,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useState } from 'react';
 import { useHistory } from "react-router-dom";
 import axios from 'axios';
+
 import Auth from "../Auth";
 
 
@@ -41,10 +42,10 @@ export default function Signup() {
     /* const [loading, setLoading] = useState(false) */
     const [hasError, setHasError] = useState(false)
 
-    const onSubmit = async (e) => {
+    const onSubmit =  (e) => {
       e.preventDefault();
       
-      let data = { email, password}
+      let data = { email, password }
 
       axios.post('/api/auth', data)
 
@@ -52,7 +53,6 @@ export default function Signup() {
         Auth.login(res.data);
         history.push("/");
       }).catch(err => {
-        console.log(err)
           setHasError(err.response.data.message)
       });
     }
@@ -66,15 +66,15 @@ export default function Signup() {
             Login
           </Typography>
           {
-                hasError && 
-                <Box marginTop={2}>
-                    <Alert severity='error'>
-                        <Typography component="p">
-                            {hasError}
-                        </Typography>
-                    </Alert>
-                </Box>
-            }
+            hasError && 
+            <Box marginTop={2}>
+                <Alert severity='error'>
+                    <Typography component="p">
+                        {hasError}
+                    </Typography>
+                </Alert>
+            </Box>
+          }
           <form className={classes.form} noValidate onSubmit={onSubmit}>
             <TextField
               variant="outlined"

@@ -28,7 +28,7 @@ const PostSchema = new Schema ({
         ref: 'User',
     },
     likes: [
-      LikesSchema
+        LikesSchema
     ],
     created_at: {
         type: Date,
@@ -37,7 +37,7 @@ const PostSchema = new Schema ({
 });
 
 PostSchema.virtual('id').get(function() {
-  return this._id.toHexString();
+    return this._id.toHexString();
 });
 
 PostSchema.set('toJSON', {virtuals: true});

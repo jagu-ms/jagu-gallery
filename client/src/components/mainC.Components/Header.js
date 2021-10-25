@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState } from 'react';
 import { 
         makeStyles, 
         AppBar, 
@@ -37,12 +37,12 @@ export default function Header() {
         age: "24"
     }
     const user = moh;
-    const logout = Auth.logout();
+    
     return (
         <AppBar  position="static" color="secondary">
                 <Toolbar>
                     {
-                        user ? <UserMenu user={user} logout={logout}/> : <GuestMenu/>
+                        user ? <UserMenu user={user} /> : <GuestMenu/>
                     }
                 </Toolbar>
         </AppBar>
@@ -68,7 +68,7 @@ function GuestMenu() {
     )
 }
 
-function UserMenu({user, logout}) {
+function UserMenu({user}) {
     const classes = useStyles();
     const [menu, setMenu] = useState(null)
     const handleMenu = (event) => setMenu(event.currentTarget)
@@ -76,7 +76,7 @@ function UserMenu({user, logout}) {
 
     const handleLogout = async () => {
         setMenu(null)
-        await logout()
+        await Auth.logout();
     }
 
     return (
@@ -86,9 +86,11 @@ function UserMenu({user, logout}) {
                     Home
                 </Typography>
             </Link>
-            <IconButton className={classes.photoIcon}>
-                <AddAPhotoIcon />
-            </IconButton>
+            <Link href='/createpost'  className={classes.photoIcon} >
+                <IconButton>
+                    <AddAPhotoIcon />
+                </IconButton>
+            </Link>
             {user?.name}
             <IconButton
                 aria-label="account of current user"
@@ -97,7 +99,9 @@ function UserMenu({user, logout}) {
                 onClick={handleMenu}
                 color="inherit"
             >
-                <Avatar ><Box className={classes.title}>{user.name?.charAt(0)}</Box></Avatar>
+                <Avatar >
+                    <Box className={classes.title}>{user.name?.charAt(0)}</Box>
+                </Avatar>
             </IconButton>
             <Menu
                 id="menu-appbar"

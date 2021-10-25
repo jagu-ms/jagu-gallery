@@ -2,15 +2,10 @@ import React from "react";
 import MainContainer from "../components/MainContainer"
 import { makeStyles, Grid, Typography, Button} from "@material-ui/core";
 import FavoriteOutlinedIcon from '@material-ui/icons/FavoriteOutlined';
-import own from "../assets/1.jpg";
-import two from "../assets/2.jpg";
-import three from "../assets/3.jpg";
-import four from "../assets/4.jpg";
-import five from "../assets/5.jpg";
-import six from "../assets/6.jpg";
-import seven from "../assets/7.jpg";
-
-
+import { useEffect, useState } from "react";
+import {Link} from 'react-router-dom';
+import axios from "axios";
+import Auth from "../Auth";
 
 const useStyles = makeStyles((theme) => ({
     img: {
@@ -33,62 +28,34 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Home() {
-    let itemData = [
-        {
-            img: own,
-            title: "moh",
-            id: "1",
-            likes: 22
-        },
-        {
-            img: two,
-            title: "ahmad",
-            id: "2",
-            likes: 22
-        },
-        {
-            img: three,
-            title: "samir",
-            id: "3",
-            likes: 22
-        },
-        {
-            img: four,
-            title: "samir",
-            id: "4",
-            likes: 33
-        },
-        {
-            img: five,
-            title: "samir",
-            id: "4",
-            likes: 22
-        },
-        {
-            img: six,
-            title: "samir",
-            id: "6",
-            likes: 22
-        },
-        {
-            img: seven,
-            title: "samir",
-            id: "7",
-            likes: 22
-        },
-    ]
+
+    const [posts, setPosts] = useState([]);
+    
+
+    useEffect(() => {
+        axios.get('/api/posts')
+
+        .then(res => {
+            setPosts(res.data);
+            console.log(res.data);
+        })
+
+        .catch(err => {
+            
+        });
+    });
+
     return (
         <MainContainer>
-            {
-                <BasicImageList itemData={itemData}/>
-            }
+            <BasicImageList itemData={posts}/>
         </MainContainer>
     )
 }
 
 function BasicImageList({itemData}) {
     const classes = useStyles();
-    let user = "mohamed";
+
+    let auth = Auth.auth();
 
     return (
         <>
@@ -97,16 +64,15 @@ function BasicImageList({itemData}) {
                     <Grid item lg={8} sm={10} xm={12} key={item.id} >
                         <div>
                             <Button>
-                            <img src={item.img} alt={item.title} className={classes.img}/>
-
+                                <Link to={"/viewpost/"+item._id}>
+                                    <img src={`uploads/${item.img}`} alt={item.title} className={classes.img}/>
+                                </Link>
                             </Button>
                         </div>
-
-                        
                         
                         <Grid container direction="row" className={classes.likesContainer}>
                             {
-                                user &&
+                                auth &&
                                 <Button>
                                     <FavoriteOutlinedIcon fontSize="large" />
                                 </Button>
@@ -118,7 +84,7 @@ function BasicImageList({itemData}) {
                         </Grid>
                         <Grid container direction="row" className={classes.likesContainer}>
                             <Typography variant="h4" >
-                                 {item.title}
+                                {item.title}
                             </Typography>
                             <Typography variant="p"  className={classes.disc}  >
                                 {item.title.substr(0,50) + "..."} 

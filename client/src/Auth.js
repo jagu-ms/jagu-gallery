@@ -4,7 +4,8 @@ const Auth = {
     login: user => {
         localStorage.setItem('token', user.token);
         localStorage.setItem('id', user.id);
-        axios.defaults.headers.common = {'Authorization': user.token};
+        // I didn't know why i doesn't work !!!
+        axios.defaults.headers.common['Authorization'] = user.token;
     },
     init: () => {
         let user = JSON.parse(localStorage.getItem('user'));
@@ -14,11 +15,12 @@ const Auth = {
     guest: () => localStorage.getItem('token') === null,
     logout: () => {
         delete axios.defaults.headers.common['Authorization'];
-        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+        localStorage.removeItem('id');
     },
     getToken: () => {
-        let user = JSON.parse(localStorage.getItem('user'));
-        return user !== null ? user.token : '';
+        let token = localStorage.getItem('token')
+        return token
     },
     setUser: (newProfile) => {
         let user = JSON.parse(localStorage.getItem('user'));

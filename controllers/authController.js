@@ -16,7 +16,7 @@ exports.login = (req, res, next) => {
 };
 
 exports.signup = (req, res , next) => {
-  let data = { name , email, password } = req.body;
+    let data = { name , email, password } = req.body;
     User.findOne({email})
     .then(user => {
         if(user) throw createError(422, 'this username is already exist');
