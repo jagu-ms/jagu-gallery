@@ -9,7 +9,7 @@ import {
         Avatar, 
         Menu, 
         MenuItem ,
-        Link,
+        Link as MuiLink,
         Box
         } from '@material-ui/core'
 import Auth from "../../Auth"
@@ -31,12 +31,8 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function Header() {
-    /* const user = localStorage.getItem("user"); */
-    let moh = {
-        name : "mohamed",
-        age: "24"
-    }
-    const user = moh;
+    const user = localStorage.getItem("user");
+    console.log(user)
     
     return (
         <AppBar  position="static" color="secondary">
@@ -54,16 +50,17 @@ function GuestMenu() {
 
     return (
         <>
-            <Link href='/' passHref className={classes.title}>
+            <MuiLink href="/" passHref className={classes.title}> 
                 <Typography variant="h6" >
                     Home
+                    {/* home icon */}
                 </Typography>
-            </Link>
-            <Link href='/login' passHref>
+            </MuiLink>
+            <MuiLink href='/login' passHref>
                 <Button variant="outlined">
                     Login
                 </Button>
-            </Link>
+            </MuiLink>
         </>
     )
 }
@@ -81,17 +78,18 @@ function UserMenu({user}) {
 
     return (
         <>
-            <Link href='/'  className={classes.titleAuth}>
+            <MuiLink href="/" passHref className={classes.titleAuth}> 
                 <Typography variant="h6" >
                     Home
+                    {/* home icon */}
                 </Typography>
-            </Link>
-            <Link href='/createpost'  className={classes.photoIcon} >
+            </MuiLink>
+            <MuiLink href='/createpost'  className={classes.photoIcon} >
                 <IconButton>
                     <AddAPhotoIcon />
                 </IconButton>
-            </Link>
-            {user?.name}
+            </MuiLink>
+            {user}
             <IconButton
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
@@ -100,7 +98,7 @@ function UserMenu({user}) {
                 color="inherit"
             >
                 <Avatar >
-                    <Box className={classes.title}>{user.name?.charAt(0)}</Box>
+                    <Box className={classes.title}>{user?.charAt(0)}</Box>
                 </Avatar>
             </IconButton>
             <Menu
@@ -119,11 +117,11 @@ function UserMenu({user}) {
                 open={Boolean(menu)}
                 onClose={handleClose}
             >
-                <Link href='/profile' passHref color="inherit">
+                <MuiLink href='/profile' passHref color="inherit">
                     <MenuItem>
                         profile
                     </MenuItem>
-                </Link>
+                </MuiLink>
                 <MenuItem onClick={handleLogout}>
                     logout
                 </MenuItem>

@@ -43,8 +43,8 @@ router.get('/', controller.list);
 
 router.get('/:id', controller.post); 
 
-/* router.put('/:id', authMiddleware.authenticated, controller.update);
+router.put('/:id', [authMiddleware.authenticated, upload.single('image')], controller.update);
 
-router.delete('/:id', authMiddleware.authenticated, controller.delete);  */
+router.delete('/:id', authMiddleware.authenticated, controller.delete); 
 
 module.exports = router;

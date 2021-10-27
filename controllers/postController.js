@@ -2,6 +2,7 @@ const Post = require('../modules/post');
 const createError = require('http-errors');
 
 exports.create = (req, res, next) => {
+    console.log(req.file)
     let model = new Post({
         img: req.file.filename,
         title: req.body.title,
@@ -60,12 +61,13 @@ exports.post = (req, res, next) => {
     .catch(next);
 };
 
-/* exports.update = (req, res, next) => {
+exports.update = (req, res, next) => {
     let postId = req.params.id;
 
     let data = {
+        img: req.file.filename,
         title: req.body.title,
-        content: req.body.content
+        discr: req.body.discr,
     };
 
     Post.findOneAndUpdate({_id: postId, author: req.user.id}, data, {runValidators: true})
@@ -90,4 +92,4 @@ exports.delete = (req, res, next) => {
     })
 
     .catch(next);
-} */
+}
