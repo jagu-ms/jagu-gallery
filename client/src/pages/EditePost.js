@@ -21,6 +21,9 @@ const useStyles = makeStyles((theme) => ({
     borderColor: theme.palette.secondary.main,
     borderRadius: "4px"
   },
+  upload: {
+    cursor: "pointer"
+  }
 }));
 
 export default function EditePost(props) {
@@ -35,7 +38,7 @@ export default function EditePost(props) {
 
   useEffect(() => {
     dataHandling();
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps 
 
   const dataHandling = () => {
     const {titleToEdite, discrToEdite, imgToEdite}  = props.location.data;

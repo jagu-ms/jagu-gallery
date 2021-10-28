@@ -41,7 +41,7 @@ export default function ViewPost(props){
   let userId = localStorage.getItem('id')
 
   function checkLike(likes) {
-    if(likes.some(likes => likes._id == userId)){
+    if(likes.some(likes => likes._id === userId)){
           setLikeState(false);
       } else{
           setLikeState(true);
@@ -61,7 +61,7 @@ export default function ViewPost(props){
       .catch(err => {
           console.log(err)
       });
-  }, [reload]);
+  }, [reload]); // eslint-disable-line react-hooks/exhaustive-deps 
 
   function deletePost(){
     axios.delete("/api/posts/"+post.id, {
@@ -84,7 +84,7 @@ export default function ViewPost(props){
             'Authorization': Auth.getToken() 
           }
         })
-        
+
         .catch(err => {
           console.log(err)
         })
@@ -140,7 +140,7 @@ export default function ViewPost(props){
           </Typography>
         </Box>
         {
-          post?.author?.id == localStorage.getItem("id") && 
+          post?.author?.id === localStorage.getItem("id") && 
           <Grid container direction="row" alignItems="center">
             <Box p={2}>
               <Link to={{
