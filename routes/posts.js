@@ -39,7 +39,7 @@ router.post('/', [authMiddleware.authenticated, upload.single('image')], control
 
 router.get('/', controller.list);
 
-//router.get('/mine/:id', controller.mine);
+router.get('/mine', authMiddleware.authenticated, controller.mine);
 
 router.get('/:id', controller.post); 
 

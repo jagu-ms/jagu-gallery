@@ -48,11 +48,11 @@ export default function CreatePost(){
       setHasError("please upload the pic and the other data");
       return
     }
+
     const data = new FormData();
     data.append('title', title);
     data.append('discr', discr);
     data.append('image', image, image.name);
-
     
     axios.post("/api/posts", data, {
       headers: {
@@ -61,7 +61,7 @@ export default function CreatePost(){
     })
 
     .then(res => { 
-      history.push("/");  
+      history.push("/mine");  
     }).catch(err => {
         setHasError(err.response.data.message)
     });

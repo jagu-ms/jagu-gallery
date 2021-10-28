@@ -5,6 +5,7 @@ import FavoriteOutlinedIcon from '@material-ui/icons/FavoriteOutlined';
 import { useEffect, useState } from "react";
 import {Link} from 'react-router-dom';
 import axios from "axios";
+import Auth from "../Auth";
 
 const useStyles = makeStyles((theme) => ({
     img: {
@@ -27,27 +28,31 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function Home() {
+export default function Mine() {
     const [posts, setPosts] = useState([]);
-    
+
     useEffect(() => {
-        axios.get('/api/posts')
+        axios.get('/api/posts/mine', {
+          headers: {
+            'Authorization': Auth.getToken() 
+          }
+        })
 
         .then(res => {
             setPosts(res.data);
         })
 
         .catch(err => {
-            console.log(err)
+            
         });
     }, []);
 
     if(posts.length < 1){
-        return (
-        <MainContainer>
-            <h1>No posts yet!</h1>
-        </MainContainer>
-        )
+      return (
+      <MainContainer>
+          <h1>No posts yet!</h1>
+      </MainContainer>
+      )
     }
     if(!posts){
         return (
@@ -85,7 +90,7 @@ function BasicImageList({itemData}) {
                         
                         <Grid container direction="row" className={classes.likesContainer}>
                             <Typography variant="h6" className={classes.likes} >
-                                {item.likes?.length} 
+                                {item.likes.length} 
                             </Typography>
                             <FavoriteOutlinedIcon fontSize="small" className={classes.favorite}/>
                         </Grid>

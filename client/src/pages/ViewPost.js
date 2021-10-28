@@ -15,23 +15,12 @@ const useStyles = makeStyles((theme) => ({
       borderRadius: "20px",
       marginBottom: "10px"
   },
-  imgEdite: {
-      width: "50%",
-      borderRadius: "20px",
-      marginBottom: "10px"
-  },
   likesContainer: {
       margin: "5px 0 10px 10px",
   },
-  edite: {
-    padding: "10px",
-    margin: "10px",
-    border: "1px solid",
-    borderColor: theme.palette.secondary.main,
-    borderRadius: "4px"
-  },
   favorite: {
       margin: "17px 5px 5px 5px",
+      fontSize: 15
   },
   likes: {
       marginTop: "12px"
@@ -46,9 +35,18 @@ export default function ViewPost(props){
   const history = useHistory();
 
   const [post, setPost] = useState();
-  const [likeState, setLikeState] = useState(false);
+  const [likeState, setLikeState] = useState(true);
   const [reload, setReload] = useState(true);
 
+  let userId = localStorage.getItem('id')
+
+  function checkLike(likes) {
+    if(likes.some(likes => likes._id == userId)){
+          setLikeState(false);
+      } else{
+          setLikeState(true);
+      }
+    }
 
   useEffect(() => {
       const { id } = props.location;
@@ -56,8 +54,8 @@ export default function ViewPost(props){
       axios.get('/api/posts/'+id)
 
       .then(res => {
-          setPost(res.data);
-          console.log(res.data)
+          setPost(res.data); 
+          checkLike(res.data?.likes);
       })
 
       .catch(err => {
@@ -80,21 +78,29 @@ export default function ViewPost(props){
   }
 
   function onClikeLike(){
-      setLikeState(!likeState)
-      axios.post('api/likes/', {post: post.id, type: likeState}, {
-        headers: {
-          'Authorization': Auth.getToken() 
-        }
-      })
-
-      .then(res => {
-        console.log(res)
-      })
-
-      .catch(err => {
-        console.log(err)
-      })
-      setReload(!reload)
+      if(likeState) {
+        axios.post('api/likes/'+post.id, likeState, {
+          headers: {
+            'Authorization': Auth.getToken() 
+          }
+        })
+        
+        .catch(err => {
+          console.log(err)
+        })
+        setReload(!reload)
+      } else {
+        axios.post('api/likes/delete/'+post.id, likeState, {
+          headers: {
+            'Authorization': Auth.getToken() 
+          }
+        })
+  
+        .catch(err => {
+          console.log(err)
+        })
+        setReload(!reload)
+      }
   }
   
   if(!post){
@@ -121,7 +127,7 @@ export default function ViewPost(props){
                 </Button>
             }
             <Typography variant="h6" className={classes.likes} >
-                {post?.likesTotal} 
+                {post?.likes.length} 
             </Typography>
             <FavoriteOutlinedIcon fontSize="small" className={classes.favorite}/>
         </Grid>

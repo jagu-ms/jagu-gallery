@@ -42,7 +42,7 @@ UserSchema.methods.signJwt = function() {
 }
 
 UserSchema.methods.checkPassword = function(password) {
-  return bcrypt.compareSync(password, this.password);
+    return bcrypt.compareSync(password, this.password);
 };
 
 UserSchema.virtual('id').get(function() {

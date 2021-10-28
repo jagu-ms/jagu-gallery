@@ -13,13 +13,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useState } from 'react';
 import { useHistory } from "react-router-dom";
 import axios from 'axios';
-
 import Auth from "../Auth";
 
 
-
 const useStyles = makeStyles((theme) => ({
-    
     avatar: {
         margin: theme.spacing(1),
         backgroundColor: theme.palette.secondary.main,
@@ -39,7 +36,6 @@ export default function Signup() {
 
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
-    /* const [loading, setLoading] = useState(false) */
     const [hasError, setHasError] = useState(false)
 
     const onSubmit =  (e) => {
@@ -51,7 +47,7 @@ export default function Signup() {
 
       .then(res => {
         Auth.login(res.data);
-        history.push("/");
+        history.push("/mine");
       }).catch(err => {
           setHasError(err.response.data.message)
       });
@@ -118,7 +114,13 @@ export default function Signup() {
                 </Link>
               </Grid>
             </Grid>
-            
+            <Grid container>
+              <Grid item>
+                <Link href="/" variant="body2">
+                  {"home"}
+                </Link>
+              </Grid>
+            </Grid>
           </form>
         </AuthContainer>
   );

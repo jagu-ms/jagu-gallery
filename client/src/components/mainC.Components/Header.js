@@ -2,8 +2,7 @@ import { useState } from 'react';
 import { 
         makeStyles, 
         AppBar, 
-        Toolbar, 
-        Typography,
+        Toolbar,
         Button, 
         IconButton, 
         Avatar, 
@@ -15,6 +14,8 @@ import {
 import Auth from "../../Auth";
 import { useHistory } from "react-router-dom";
 import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
+import HomeIcon from '@material-ui/icons/Home';
+import PersonIcon from '@material-ui/icons/Person';
 
 const useStyles = makeStyles((theme) => ({
     title: {
@@ -35,7 +36,7 @@ export default function Header() {
     const user = localStorage.getItem("user");
     
     return (
-        <AppBar  position="static" color="secondary">
+        <AppBar  position="static" color="primary">
                 <Toolbar>
                     {
                         user ? <UserMenu user={user} /> : <GuestMenu/>
@@ -51,10 +52,9 @@ function GuestMenu() {
     return (
         <>
             <MuiLink href="/" passHref className={classes.title}> 
-                <Typography variant="h6" >
-                    Home
-                    {/* home icon */}
-                </Typography>
+                <IconButton>
+                    <HomeIcon />
+                </IconButton>
             </MuiLink>
             <MuiLink href='/login' passHref>
                 <Button variant="outlined">
@@ -82,10 +82,14 @@ function UserMenu({user}) {
     return (
         <>
             <MuiLink href="/" passHref className={classes.titleAuth}> 
-                <Typography variant="h6" >
-                    Home
-                    {/* home icon */}
-                </Typography>
+                <IconButton>
+                    <HomeIcon />
+                </IconButton>
+            </MuiLink>
+            <MuiLink href="/mine" passHref className={classes.titleAuth}> 
+                <IconButton>
+                    <PersonIcon />
+                </IconButton>
             </MuiLink>
             <MuiLink href='/createpost'  className={classes.photoIcon} >
                 <IconButton>

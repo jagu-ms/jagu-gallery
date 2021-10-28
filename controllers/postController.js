@@ -32,20 +32,17 @@ exports.list = (req, res, next) => {
 
 };
 
-/* exports.mine = (req, res, next) => {
-    let authorId = req.params.id;
-
-    Post.find({author: authorId})
-    .select('-comments')
+exports.mine = (req, res, next) => {
+    console.log(req.user.id)
+    Post.find({author: req.user.id})
     .sort({created_at: 'desc'})
-    .populate('author', 'name')
 
     .then(posts => {
         res.json(posts);
     })
 
     .catch(next);
-}; */
+};
 
 exports.post = (req, res, next) => {
     let postId = req.params.id;
@@ -74,7 +71,6 @@ exports.update = (req, res, next) => {
 
     .then(post => {
         if(!post) throw createError(404);
-
         res.json();
     })
 

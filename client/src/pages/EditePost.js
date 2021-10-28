@@ -9,18 +9,10 @@ import Auth from "../Auth";
 
 
 const useStyles = makeStyles((theme) => ({
-  img: {
-      width: "100%",
-      borderRadius: "20px",
-      marginBottom: "10px"
-  },
   imgEdite: {
       width: "50%",
       borderRadius: "20px",
       marginBottom: "10px"
-  },
-  likesContainer: {
-      margin: "5px 0 10px 10px",
   },
   edite: {
     padding: "10px",
@@ -29,18 +21,6 @@ const useStyles = makeStyles((theme) => ({
     borderColor: theme.palette.secondary.main,
     borderRadius: "4px"
   },
-  favorite: {
-      margin: "17px 5px 5px 5px",
-  },
-  likes: {
-      marginTop: "12px"
-  },
-  disc: {
-      margin: "16px 0 0 20px"
-  },
-  upload: {
-    cursor: "pointer"
-  }
 }));
 
 export default function EditePost(props) {
@@ -59,7 +39,6 @@ export default function EditePost(props) {
 
   const dataHandling = () => {
     const {titleToEdite, discrToEdite, imgToEdite}  = props.location.data;
-    console.log(titleToEdite, discrToEdite,imgToEdite)
     setTitle(titleToEdite);
     setDiscr(discrToEdite);
     setImage(imgToEdite);
@@ -78,7 +57,6 @@ export default function EditePost(props) {
       setHasError("please upload the pic and the other data");
       return
     }
-    console.log(id)
     const data = new FormData();
     data.append('title', title);
     data.append('discr', discr);
@@ -91,8 +69,9 @@ export default function EditePost(props) {
     })
 
     .then(res => {
-      history.push("/");
-    }).catch(err => {
+        history.push("/");
+    })
+    .catch(err => {
         setHasError(err.response.data.message)
     });
   }

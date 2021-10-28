@@ -40,11 +40,15 @@ export default function Signup() {
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
     const [ConfirmPassword, setConfirmPassword] = useState()
-    /* const [loading, setLoading] = useState(false) */
     const [hasError, setHasError] = useState(false)
 
     const onSubmit =  (e) => {
         e.preventDefault();
+
+        if( !name || !email || !password ){
+          setHasError("All form fields are required");
+          return
+        }
 
         if(password !== ConfirmPassword) {
             setHasError("please confirm password")
@@ -57,7 +61,7 @@ export default function Signup() {
 
         .then(res => {
           Auth.login(res.data);
-          history.push("/");
+          history.push("/mine");
         }).catch(err => {
           console.log(err)
             setHasError(err.response.data.message)
@@ -146,6 +150,13 @@ export default function Signup() {
           <Grid item>
             <Link href="login" variant="body2">
               {"Login"}
+            </Link>
+          </Grid>
+        </Grid>
+        <Grid container>
+          <Grid item>
+            <Link href="/" variant="body2">
+              {"home"}
             </Link>
           </Grid>
         </Grid>
