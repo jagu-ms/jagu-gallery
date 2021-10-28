@@ -6,6 +6,6 @@ const controller = require('../controllers/likeController');
 
 const authMiddleware = require('../middlewares/authMiddleware');
 
-router.post('/:postId', authMiddleware.authenticated, controller.handler);
+router.post('/', authMiddleware.authenticated, controller.handler);
 
 module.exports = router;

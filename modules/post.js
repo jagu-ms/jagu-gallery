@@ -52,7 +52,7 @@ PostSchema.statics.like = async function (_id, {type, user}) {
 
 PostSchema.virtual('likesTotal').get(function () {
     let total = 0;
-    for (let like of this.likes) total += like.type ? 1 : -1 /* 0 */;
+    for (let like of this.likes) total += like.type ? 1 : 0 ;
     return total;
 });
 

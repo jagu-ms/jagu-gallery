@@ -46,23 +46,24 @@ export default function ViewPost(props){
   const history = useHistory();
 
   const [post, setPost] = useState();
+  const [likeState, setLikeState] = useState(false);
+  const [reload, setReload] = useState(true);
 
 
   useEffect(() => {
       const { id } = props.location;
-      console.log(id)
 
       axios.get('/api/posts/'+id)
 
       .then(res => {
           setPost(res.data);
-          console.log(post)
+          console.log(res.data)
       })
 
       .catch(err => {
-          
+          console.log(err)
       });
-  });
+  }, [reload]);
 
   function deletePost(){
     axios.delete("/api/posts/"+post.id, {
@@ -70,21 +71,42 @@ export default function ViewPost(props){
         'Authorization': Auth.getToken() 
       }
     })
-
     .then(res => {
       history.push("/");   
     })
-  } 
+    .catch(err => {
+      console.log(err);      
+    })
+  }
 
-  let auth = Auth.auth();
+  function onClikeLike(){
+      setLikeState(!likeState)
+      axios.post('api/likes/', {post: post.id, type: likeState}, {
+        headers: {
+          'Authorization': Auth.getToken() 
+        }
+      })
+
+      .then(res => {
+        console.log(res)
+      })
+
+      .catch(err => {
+        console.log(err)
+      })
+      setReload(!reload)
+  }
   
   if(!post){
     return (
       <MainContainer>
-        <h1>is loading</h1>
+        <h1>loading..</h1>
       </MainContainer>
     )
   }
+
+  let auth = Auth.auth();
+
   return (
     <MainContainer>
         {
@@ -94,12 +116,12 @@ export default function ViewPost(props){
         <Grid container direction="row" className={classes.likesContainer}>
             {
                 auth &&
-                <Button >
+                <Button onClick={onClikeLike}>
                     <FavoriteOutlinedIcon fontSize="large" />
                 </Button>
             }
             <Typography variant="h6" className={classes.likes} >
-                {post.likes} 
+                {post?.likesTotal} 
             </Typography>
             <FavoriteOutlinedIcon fontSize="small" className={classes.favorite}/>
         </Grid>
@@ -112,28 +134,28 @@ export default function ViewPost(props){
           </Typography>
         </Box>
         {
-          auth && 
+          post?.author?.id == localStorage.getItem("id") && 
           <Grid container direction="row" alignItems="center">
-          <Box p={2}>
-            <Link to={{
-                pathname: '/editepost',
-                data: {
-                  id: post.id, 
-                  imgToEdite: post.img, 
-                  titleToEdite: post.title, 
-                  discrToEdite: post.discr
-                  }
-            }}>
-            <Button margin={4} variant="outlined">
-              <EditOutlinedIcon fontSize="large" color="primary"/> 
-            </Button>
-            </Link>
-          </Box>
-          <Box p={2}>
-            <Button margin={4} variant="outlined" onClick={deletePost }>
-              <DeleteOutlineOutlinedIcon fontSize="large" color="primary"/> 
-            </Button>
-          </Box>
+            <Box p={2}>
+              <Link to={{
+                  pathname: '/editepost',
+                  data: {
+                    id: post.id, 
+                    imgToEdite: post.img, 
+                    titleToEdite: post.title, 
+                    discrToEdite: post.discr
+                    }
+              }}>
+              <Button margin={4} variant="outlined">
+                <EditOutlinedIcon fontSize="large" color="primary"/> 
+              </Button>
+              </Link>
+            </Box>
+            <Box p={2}>
+              <Button margin={4} variant="outlined" onClick={deletePost }>
+                <DeleteOutlineOutlinedIcon fontSize="large" color="primary"/> 
+              </Button>
+            </Box>
           </Grid>
         }
     </MainContainer>

@@ -12,7 +12,8 @@ import {
         Link as MuiLink,
         Box
         } from '@material-ui/core'
-import Auth from "../../Auth"
+import Auth from "../../Auth";
+import { useHistory } from "react-router-dom";
 import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
 
 const useStyles = makeStyles((theme) => ({
@@ -32,7 +33,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Header() {
     const user = localStorage.getItem("user");
-    console.log(user)
     
     return (
         <AppBar  position="static" color="secondary">
@@ -67,6 +67,8 @@ function GuestMenu() {
 
 function UserMenu({user}) {
     const classes = useStyles();
+    const history = useHistory();
+
     const [menu, setMenu] = useState(null)
     const handleMenu = (event) => setMenu(event.currentTarget)
     const handleClose = () => setMenu(null)
@@ -74,6 +76,7 @@ function UserMenu({user}) {
     const handleLogout = async () => {
         setMenu(null)
         await Auth.logout();
+        await history.push("/");
     }
 
     return (

@@ -43,7 +43,7 @@ export default function Home() {
         .catch(err => {
             
         });
-    });
+    }, []);
 
     return (
         <MainContainer>
@@ -81,7 +81,7 @@ function BasicImageList({itemData}) {
                                 </Button>
                             }
                             <Typography variant="h6" className={classes.likes} >
-                                {item.likes} 
+                                {item.likesTotal} 
                             </Typography>
                             <FavoriteOutlinedIcon fontSize="small" className={classes.favorite}/>
                         </Grid>

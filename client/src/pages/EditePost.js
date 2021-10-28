@@ -55,7 +55,6 @@ export default function EditePost(props) {
 
   useEffect(() => {
     dataHandling();
-    setHasError("please reload the pic so you can update")
   }, [])
 
   const dataHandling = () => {
@@ -101,6 +100,9 @@ export default function EditePost(props) {
   return (
     <MainContainer>
       <Grid container  md={8} alignItems="center" direction="column" className={classes.edite}>
+        <Box p={4}>
+          <p>please reload the image so you can edite post</p>
+        </Box>
         {
           imageUrl ? <img src={imageUrl} alt="pic" className={classes.imgEdite}/>
                     : <img src={`uploads/${image}`} alt="pic" className={classes.imgEdite}/>
