@@ -61,7 +61,7 @@ export default function ViewPost(props){
       .catch(err => {
           console.log(err)
       });
-  }, [reload]); // eslint-disable-line react-hooks/exhaustive-deps 
+  }); // eslint-disable-line react-hooks/exhaustive-deps 
 
   function deletePost(){
     axios.delete("/api/posts/"+post.id, {
@@ -84,6 +84,9 @@ export default function ViewPost(props){
             'Authorization': Auth.getToken() 
           }
         })
+        .then(res => {
+          setReload(!reload)
+        })
 
         .catch(err => {
           console.log(err)
@@ -95,7 +98,9 @@ export default function ViewPost(props){
             'Authorization': Auth.getToken() 
           }
         })
-  
+        .then(res => {
+          setReload(!reload)
+        })
         .catch(err => {
           console.log(err)
         })
