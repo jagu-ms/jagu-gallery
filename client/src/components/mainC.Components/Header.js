@@ -19,8 +19,8 @@ import PersonIcon from '@material-ui/icons/Person';
 
 const useStyles = makeStyles((theme) => ({
     title: {
-        flexGrow: 1,
-            color: "white"
+        marginRight: "auto",
+        color: "white"
     },
     titleAuth: {
         marginRight: theme.spacing(4),
@@ -28,6 +28,13 @@ const useStyles = makeStyles((theme) => ({
     },
     photoIcon: {
         marginRight: "auto"
+    },
+    avatar: {
+        textAlign: "center",
+        color: "white"
+    },
+    signup: {
+        marginLeft: "10px"
     }
 }))
 
@@ -59,6 +66,11 @@ function GuestMenu() {
             <MuiLink href='/login' passHref>
                 <Button variant="outlined">
                     Login
+                </Button>
+            </MuiLink>
+            <MuiLink href='/signup' className={classes.signup} passHref>
+                <Button variant="outlined">
+                    Sign Up
                 </Button>
             </MuiLink>
         </>
@@ -105,7 +117,7 @@ function UserMenu({user}) {
                 color="inherit"
             >
                 <Avatar >
-                    <Box className={classes.title}>{user?.charAt(0)}</Box>
+                    <Box className={classes.avatar}>{user?.charAt(0)}</Box>
                 </Avatar>
             </IconButton>
             <Menu
@@ -124,11 +136,6 @@ function UserMenu({user}) {
                 open={Boolean(menu)}
                 onClose={handleClose}
             >
-                <MuiLink href='/profile' passHref color="inherit">
-                    <MenuItem>
-                        profile
-                    </MenuItem>
-                </MuiLink>
                 <MenuItem onClick={handleLogout}>
                     logout
                 </MenuItem>
