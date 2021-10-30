@@ -10,7 +10,7 @@ import {
         MenuItem ,
         Link as MuiLink,
         Box
-        } from '@material-ui/core'
+        } from '@material-ui/core';
 import Auth from "../../Auth";
 import { useHistory } from "react-router-dom";
 import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';

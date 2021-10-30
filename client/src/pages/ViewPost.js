@@ -27,6 +27,9 @@ const useStyles = makeStyles((theme) => ({
   },
   disc: {
       margin: "16px 0 0 20px"
+  },
+  liked: {
+    color: "red"
   }
 }));
 
@@ -38,15 +41,7 @@ export default function ViewPost(props){
   const [likeState, setLikeState] = useState(true);
   const [reload, setReload] = useState(true);
 
-  let userId = localStorage.getItem('id')
-
-  function checkLike(likes) {
-    if(likes.some(likes => likes._id === userId)){
-          setLikeState(false);
-      } else{
-          setLikeState(true);
-      }
-    }
+  let userId = localStorage.getItem('id');
 
   useEffect(() => {
       const { id } = props.location;
@@ -61,7 +56,15 @@ export default function ViewPost(props){
       .catch(err => {
           console.log(err)
       });
-  }); // eslint-disable-line react-hooks/exhaustive-deps 
+  }); // eslint-disable-line react-hooks/exhaustive-deps
+  
+  function checkLike(likes) {
+    if(likes.some(likes => likes._id === userId)){
+          setLikeState(false);
+      } else{
+          setLikeState(true);
+      }
+  }
 
   function deletePost(){
     axios.delete("/api/posts/"+post.id, {
@@ -76,7 +79,7 @@ export default function ViewPost(props){
       console.log(err);      
     })
   }
-
+  
   function onClikeLike(){
       if(likeState) {
         axios.post('api/likes/'+post.id, likeState, {
@@ -128,7 +131,10 @@ export default function ViewPost(props){
             {
                 auth &&
                 <Button onClick={onClikeLike}>
-                    <FavoriteOutlinedIcon fontSize="large" />
+                    {
+                    likeState? <FavoriteOutlinedIcon fontSize="large" />
+                    : <FavoriteOutlinedIcon className={classes.liked} fontSize="large" />
+                    }
                 </Button>
             }
             <Typography variant="h6" className={classes.likes} >
